@@ -1,0 +1,39 @@
+<div class="container-fluid login">
+    <div class="row login-bg-layer d-flex justify-content-center align-items-center h-100">
+        <div class="login-form text-center ">
+            <i class="fas fa-coffee text-success bg-info"></i>
+
+            <h3 class="text-center">تسجيل الدخول</h3>
+            <p class="text-center">قم بتسجيل الدخول لنتائج بحثية افضل</p>
+            <form>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email" placeholder="البريد الالكتروني">
+                </div>
+                <div class=" form-group input-group my-3 ">
+                    <input [type]="isPasswordVisible ? 'text':'password'" class="form-control password-input"
+                        id="password" placeholder="كلمة المرور">
+                    <button class="btn visability-btn" type="button" (click)="togglePasswordVisibility()">
+                        <i class="bi" [ngClass]="isPasswordVisible ? 'bi-eye-slash' : 'bi-eye'"></i>
+                    </button>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input"> تذكرني
+                    </label>
+                    <div class="form-group">
+                        <a href="#" class="float-right text-light">هل نسيت كلمة المرور؟</a>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success btn-block my-2"> <i class="bi bi-send-fill mx-1"></i> تسجيل جديد</button>
+                <div class="form-group my-2">
+                    <p> ليس لديك حساب؟<span>
+                            <a href="#" class="float-right text-warning mx-2">تسجيل جديد</a>
+                        </span>
+                    </p>
+                </div>
+                <hr>
+                <p>او التسجيل عبر</p>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+
+.accordion-button:not(.collapsed){
+    background-color: white !important;
+}
+
+.btn {
+    background-color: #00ab67;
+    padding: 8px 16px;
+    color: white;
+}

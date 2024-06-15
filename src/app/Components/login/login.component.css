@@ -1,0 +1,40 @@
+.login {
+    height: 100vh;
+    background-image: url('../../../assets/images/bg.PNG');
+    background-position: end;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+.login-bg-layer{
+    height: 100vh;
+    background-color: rgba(0, 0, 0,0.4);
+    color: white;
+}
+.login-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    margin: auto;
+    background-color: transparent;
+    border-radius: 10px;
+}
+input{
+    background-color: rgba(255, 255, 255,0.4);
+    border: none;
+    border-radius: 5px !important;
+}
+.password-input{
+    position: relative;
+
+}
+.visability-btn{
+    background-color: transparent;
+    border-radius: 0;
+    border: none;
+    position: absolute;
+    left: 0;
+}
+.bi-send-fill{
+    font-size: 10px;
+    }

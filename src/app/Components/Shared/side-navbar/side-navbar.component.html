@@ -1,0 +1,21 @@
+<div class="side-nav">
+    <nav>
+        <ul>
+            <li [routerLinkActive]="['active']"  [routerLinkActiveOptions]="{ exact: true }" >
+                <a [routerLink]="['/']">
+                    <i class="bi bi-person-square ms-2"></i>
+
+                    البيانات الشخصية
+                </a>
+            </li>
+            <li [routerLinkActive]="['active']" >
+                <a [routerLink]="['/social-media']" >
+                    <i class="bi bi-link-45deg ms-2"></i>
+
+                    روابط التواصل الاجتماعي
+
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
