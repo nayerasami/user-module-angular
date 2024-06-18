@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { AuthService } from './../../../Services/auth.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./side-navbar.component.css']
 })
 export class SideNavbarComponent {
-
+  constructor(private authService:AuthService,private router:Router){}
+  logout(){
+this.authService.deleteToken()
+this.router.navigate(['/login'])
+  }
 }

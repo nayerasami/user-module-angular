@@ -44,3 +44,7 @@
 .active a {
     color: white !important;
 }
+.logoutBtn{
+    background-color: transparent;
+    border: none;
+}

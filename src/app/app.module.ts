@@ -10,6 +10,9 @@ import { SocialMediaComponent } from './Components/social-media/social-media.com
 import { SideNavbarComponent } from './Components/Shared/side-navbar/side-navbar.component';
 import { NotFoundComponent } from './Components/Shared/not-found/not-found.component';
 import { DashboardComponent } from './Components/Shared/dashboard/dashboard.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http'
+import { CookieServiceService } from './Services/cookie-service.service';
 
 @NgModule({
   declarations: [
@@ -24,9 +27,11 @@ import { DashboardComponent } from './Components/Shared/dashboard/dashboard.comp
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [CookieServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
