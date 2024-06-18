@@ -53,9 +53,12 @@ export class AuthService {
 
   getLoggedDecodedUserData(): any {
     this.accessToken = this.getToken() || '';
-    this.decodedUserToken = jwtDecode(this.accessToken);
-    console.log("Decoded Token:", this.decodedUserToken);
-    return this.decodedUserToken;
+    if (this.accessToken) {
+      this.decodedUserToken = jwtDecode(this.accessToken);
+      console.log("Decoded Token:", this.decodedUserToken);
+      return this.decodedUserToken;
+    }
+    return null;
   }
 
   deleteToken() {
