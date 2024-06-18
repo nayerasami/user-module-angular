@@ -12,12 +12,10 @@ import { jwtDecode } from "jwt-decode";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  
   private accessToken: string = '';
   private userId: number | undefined;
   private userDetails: any;
-  private registeredUser:any;
-
+  private registeredUserToken: any;
 
   userProfileInfo = new FormGroup({
     firstName: new FormControl('', [
@@ -30,16 +28,34 @@ export class ProfileComponent implements OnInit {
       Validators.minLength(2),
       Validators.maxLength(20)
     ]),
-    arabicFullName: new FormControl('', [
-      Validators.minLength(4),
-      Validators.maxLength(150)
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email
     ]),
-    englishFullName: new FormControl('', [
-      Validators.minLength(4),
-      Validators.maxLength(150)
+    phoneNumber: new FormControl('', [
+      Validators.required,
+      Validators.minLength(11), // Assuming minimum length requirement
+      Validators.pattern(/^\d{11}$/) // Assuming numeric format requirement
     ]),
-    nationality: new FormControl(''),
+    imageUrl: new FormControl(''),
+    gender: new FormControl('female', [
+      Validators.required,
+      Validators.pattern(/^(male|female)$/i) // Assuming valid gender values
+    ]),
     birthDate: new FormControl(''),
+    nationality: new FormControl(''),
+    bio: new FormControl('', [
+      Validators.minLength(2),
+      Validators.maxLength(250)
+    ]),
+    fullNameArabic: new FormControl('', [
+      Validators.minLength(2),
+      Validators.maxLength(150)
+    ]),
+    fullNameEnglish: new FormControl('', [
+      Validators.minLength(2),
+      Validators.maxLength(150)
+    ]),
     country: new FormControl('', [
       Validators.minLength(2),
       Validators.maxLength(30)
@@ -51,29 +67,21 @@ export class ProfileComponent implements OnInit {
     fullAddress: new FormControl('', [
       Validators.minLength(2),
       Validators.maxLength(150)
-    ]),
-    bio: new FormControl('', [
-      Validators.minLength(2),
-      Validators.maxLength(250)
     ])
   });
-  constructor(private userService: UserService, private authService: AuthService) {}
+
+  constructor(private userService: UserService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.registeredUser = this.authService.getToken();
-    this.accessToken=this.registeredUser.user.accessToken;
-    console.log("access token from profile ",this.accessToken)
-    if (this.accessToken) {
+    this.registeredUserToken = this.authService.getToken();
+    if (this.registeredUserToken) {
       try {
-        const decodedUserToken: any = jwtDecode(this.accessToken);
-        console.log("Decoded Token:", decodedUserToken);
-
+        const decodedUserToken: any = jwtDecode(this.registeredUserToken);
         this.userId = decodedUserToken.id;
         if (this.userId) {
-          this.userService.getUserById(this.userId,this.getHeaders()).subscribe({
+          this.userService.getUserById(this.userId, this.getHeaders()).subscribe({
             next: response => {
               this.userDetails = response.data.user;
-              console.log("User details:", this.userDetails);
               this.populateForm(this.userDetails);
             },
             error: (error: HttpErrorResponse) => {
@@ -92,25 +100,35 @@ export class ProfileComponent implements OnInit {
     } else {
       console.warn("Access token not found or expired.");
     }
-
   }
+
   private getHeaders(): HttpHeaders {
-    console.log('headers access token ',this.accessToken)
     return new HttpHeaders({
-      'Authorization': `Bearer ${this.accessToken}`
+      'Authorization': `Bearer ${this.registeredUserToken}`
     });
   }
-
 
   private populateForm(userDetails: any): void {
     this.userProfileInfo.patchValue({
       firstName: userDetails.firstName,
       lastName: userDetails.lastName,
+      email: userDetails.email,
+      phoneNumber: userDetails.phoneNumber,
+      imageUrl: userDetails.imageUrl,
+      gender: userDetails.gender,
+      birthDate: userDetails.birthDate,
+      nationality: userDetails.nationality,
+      bio: userDetails.bio,
+      fullNameArabic: userDetails.fullNameArabic,
+      fullNameEnglish: userDetails.fullNameEnglish,
+      country: userDetails.country,
+      city: userDetails.city,
+      fullAddress: userDetails.fullAddress
     });
   }
+
   editUserInfo(): void {
     if (this.userProfileInfo.valid) {
-      console.log(this.userProfileInfo.value);
       this.userService.editUserInfo(this.userId, this.userProfileInfo.value, this.getHeaders()).subscribe({
         next: response => {
           console.log("Edit response:", response);
@@ -121,6 +139,10 @@ export class ProfileComponent implements OnInit {
           if (error.status === 400 && error.error?.validationErr) {
             const validationErrors: ValidationErrors[] = error.error.validationErr;
             this.handleValidationErrors(validationErrors);
+          } else {
+            // Handle other types of errors (e.g., server errors)
+            // Display a generic error message to the user
+            // Example: this.errorMessage = 'An error occurred while saving.';
           }
         }
       });
@@ -131,8 +153,6 @@ export class ProfileComponent implements OnInit {
   }
 
   private handleValidationErrors(validationErrors: any[]): void {
-    // Example: Reset validation errors and mark fields as invalid
-    this.userProfileInfo.setErrors({ serverError: true });
     validationErrors.forEach(error => {
       const control = this.userProfileInfo.get(error.field); // Adjust 'field' based on actual API response
       if (control) {

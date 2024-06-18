@@ -1,21 +1,22 @@
 <div class="row mb-3 d-flex justify-content-center align-items-center">
     <div class="col-md-2">
-        <div class="image"></div>
+        <div class="image">
+            <img [src]="imageUrl || ''" alt="Uploaded Image" *ngIf="imageUrl" />
+        </div>
     </div>
     <div class="col-md-10">
         <h4>الصورة الشخصية</h4>
-    <p class="text-muted"> الصورة بصيغة svg,png,jpg,jpeg 
-        بحجم 10 ميجا بايت
-    </p>
-        <!-- <button type="button" class="imageBtn">اضافة صورة</button> -->
-       <button class="imageBtn" (click)="onUploadClick()">اضافة صورة</button>
-        <input type="file" #fileInput style="display: none;"  (change)="onFileChange($event)" required>
-       
+        <p class="text-muted"> الصورة بصيغة svg,png,jpg,jpeg
+            بحجم 10 ميجا بايت
+        </p>
+        <button class="imageBtn" (click)="onUploadClick()">اضافة صورة</button>
+        <input type="file" #fileInput style="display: none;" (change)="onFileChange($event)" required>
+
         <div *ngIf="uploadSuccess" class="alert alert-success mt-3">
             Image uploaded successfully!
-          </div>
-          <div *ngIf="uploadError" class="alert alert-danger mt-3">
+        </div>
+        <div *ngIf="uploadError" class="alert alert-danger mt-3">
             Error uploading image. Please try again.
-          </div>
-</div>
+        </div>
+    </div>
 </div>

@@ -15,7 +15,7 @@ constructor(private http: HttpClient, private authService: AuthService) {}
 
 
 getUserById(id:any,header:any):Observable<any>{
- 
+
   return this.http.get(`${this.baseUrl}/user/${id}`,{headers:header})
   }
 
