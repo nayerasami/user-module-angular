@@ -8,20 +8,3 @@
     padding: 8px 16px;
     color: white;
 }
-.image{
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    background-image: url('../../../assets/images/userImage.jpg');
-    background-size: cover;
-    background-position: center;
-
-}
-
-.imageBtn{
-    background-color: #00ab67;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 16px;
-    color: white;
-}

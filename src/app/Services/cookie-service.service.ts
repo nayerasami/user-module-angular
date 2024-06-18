@@ -5,7 +5,7 @@ import Cookies, { Cookie } from 'universal-cookie';
   providedIn: 'root'
 })
 export class CookieServiceService {
- private cookies:Cookie;
+  private cookies:Cookie;
   constructor() { 
     this.cookies =new Cookies()
   }

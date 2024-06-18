@@ -1,8 +1,7 @@
 <div class="container-fluid register bg-dark text-light">
     <div class="row register-bg-layer d-flex justify-content-center align-items-center h-100">
-        <div class="register-form text-center ">
+        <div class="register-form text-center">
             <i class="fas fa-coffee text-success bg-info"></i>
-
             <h3 class="text-center">تسجيل جديد</h3>
             <p class="text-center">قم بالتسجيل لنتائج بحثية افضل</p>
 
@@ -10,18 +9,20 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="form-group">
                         <input type="text" class="form-control" id="fname" placeholder="الاسم الاول" formControlName="firstName">
-                
-
                     </div>
                     <div class="form-group me-2">
                         <input type="text" class="form-control" id="lname" placeholder="الاسم الاخير" formControlName="lastName">
                     </div>
                 </div>
                 <ng-container *ngIf="getFirstName.touched">
-                    <p  *ngIf="getFirstName.hasError('required')" class=" text-start text-danger mt-2">first name is required</p>
+                    <p *ngIf="getFirstName.hasError('required')" class="text-start text-danger mt-2">First name is required</p>
+                    <p *ngIf="getFirstName.hasError('minlength')" class="text-start text-danger mt-2">First name must be at least 2 characters long</p>
+                    <p *ngIf="getFirstName.hasError('maxlength')" class="text-start text-danger mt-2">First name cannot be more than 20 characters long</p>
                 </ng-container>
                 <ng-container *ngIf="getLastName.touched">
-                    <p  *ngIf="getLastName.hasError('required')" class=" text-start text-danger mt-2">last name is required</p>
+                    <p *ngIf="getLastName.hasError('required')" class="text-start text-danger mt-2">Last name is required</p>
+                    <p *ngIf="getLastName.hasError('minlength')" class="text-start text-danger mt-2">Last name must be at least 2 characters long</p>
+                    <p *ngIf="getLastName.hasError('maxlength')" class="text-start text-danger mt-2">Last name cannot be more than 20 characters long</p>
                 </ng-container>
 
                 <div class="d-flex justify-content-between align-items-center my-3">
@@ -32,60 +33,64 @@
                         <input type="email" class="form-control" id="email" placeholder="البريد الالكتروني" formControlName="email">
                     </div>
                 </div>
-                <ng-container *ngIf="getPhoneNumber.touched" >
-                    <p  *ngIf="getPhoneNumber.hasError('required')" class=" text-start text-danger mt-2">phone Number is required</p>
+                <ng-container *ngIf="getPhoneNumber.touched">
+                    <p *ngIf="getPhoneNumber.hasError('required')" class="text-start text-danger mt-2">Phone number is required</p>
+                    <p *ngIf="getPhoneNumber.hasError('minlength')" class="text-start text-danger mt-2">Phone number must be at least 11 characters long</p>
+                    <p *ngIf="getPhoneNumber.hasError('maxlength')" class="text-start text-danger mt-2">Phone number cannot be more than 20 characters long</p>
                 </ng-container>
                 <ng-container *ngIf="getEmail.touched">
-                    <p  *ngIf="getEmail.hasError('required')" class=" text-start text-danger mt-2">email is required</p>
+                    <p *ngIf="getEmail.hasError('required')" class="text-start text-danger mt-2">Email is required</p>
+                    <p *ngIf="getEmail.hasError('email')" class="text-start text-danger mt-2">Enter a valid email address</p>
                 </ng-container>
-                <div class=" form-group input-group my-3 ">
-                    <input [type]="isPasswordVisible ? 'text':'password'" class="form-control password-input"
-                        id="password" placeholder="كلمة المرور" formControlName="password">
+
+                <div class="form-group input-group my-3">
+                    <input [type]="isPasswordVisible ? 'text' : 'password'" class="form-control password-input" id="password" placeholder="كلمة المرور" formControlName="password">
                     <button class="btn visability-btn" type="button" (click)="togglePasswordVisibility()">
                         <i class="bi" [ngClass]="isPasswordVisible ? 'bi-eye-slash' : 'bi-eye'"></i>
                     </button>
                 </div>
                 <ng-container *ngIf="getPassword.touched">
-                    <p  *ngIf="getPassword.hasError('required')" class=" text-start text-danger mt-2">password is required</p>
+                    <p *ngIf="getPassword.hasError('required')" class="text-start text-danger mt-2">Password is required</p>
+                    <p *ngIf="getPassword.hasError('minlength')" class="text-start text-danger mt-2">Password must be at least 8 characters long</p>
+                    <p *ngIf="getPassword.hasError('pattern')" class="text-start text-danger mt-2">Password must contain at least one number, one lowercase and one uppercase letter</p>
                 </ng-container>
-                <div class=" form-group input-group my-3 ">
-                    <input [type]="isPasswordVisible ? 'text':'password'" class="form-control password-input"
-                        id="password" placeholder="تاكيد كلمة المرور" formControlName="confirmPassword">
+
+                <div class="form-group input-group my-3">
+                    <input [type]="isPasswordVisible ? 'text' : 'password'" class="form-control password-input" id="confirmPassword" placeholder="تاكيد كلمة المرور" formControlName="confirmPassword">
                     <button class="btn visability-btn" type="button" (click)="togglePasswordVisibility()">
                         <i class="bi" [ngClass]="isPasswordVisible ? 'bi-eye-slash' : 'bi-eye'"></i>
                     </button>
                 </div>
-                <ng-container *ngIf="getConfirmPassword.touched" >
-                    <p  *ngIf="getConfirmPassword.hasError('required')" class=" text-start text-danger mt-2">password confirmation is required</p>
+                <ng-container *ngIf="getConfirmPassword.touched">
+                    <p *ngIf="getConfirmPassword.hasError('required')" class="text-start text-danger mt-2">Password confirmation is required</p>
+                    <p *ngIf="getConfirmPassword.hasError('isMatching')" class="text-start text-danger mt-2">Passwords must match</p>
                 </ng-container>
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input"> اوافق علي كافة <span><a href="#"
-                                class="text-warning text-decoration-none">الشروط والاحكام</a></span>
+                        <input type="checkbox" class="form-check-input" checked> اوافق علي كافة <span><a href="#" class="text-warning text-decoration-none">الشروط والاحكام</a></span>
                     </label>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mb-3" checked>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
                     ارسال التحقق من خلال
-                    <label class="form-check-label ">
-                        <input type="checkbox" class="form-check-input ">
-                        <a href="#" class="text-warning">
-                            رقم الجوال
-                        </a>
-                    </label>
-                    <label class="form-check-label ">
+                    <label class="form-check-label">
                         <input type="checkbox" class="form-check-input">
-                        <a href="#" class="text-warning">
-                            البريد الالكتروني
-                        </a> </label>
+                        <a href="#" class="text-warning">رقم الجوال</a>
+                    </label>
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" checked>
+                        <a href="#" class="text-warning">البريد الالكتروني</a>
+                    </label>
                 </div>
-                <button type="submit" class="btn btn-success btn-block my-2"> <i class="bi bi-send-fill mx-1"></i>تسجيل</button>
-               
-                 
+
+                <button type="submit" class="btn btn-success btn-block my-2">
+                    <i class="bi bi-send-fill mx-1"></i>تسجيل
+                </button>
+
                 <div class="form-group my-2">
-               <p>لديك حساب؟<span><a href="#" class="text-warning" routerLink="/login">تسجيل الدخول </a></span></p>
-            </div>
-            
+                    <p>لديك حساب؟<span><a href="#" class="text-warning" routerLink="/login">تسجيل الدخول </a></span></p>
+                </div>
             </form>
         </div>
     </div>

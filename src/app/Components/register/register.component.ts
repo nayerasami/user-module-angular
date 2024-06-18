@@ -82,7 +82,7 @@ constructor(private authService:AuthService ,private router:Router){}
           const accessToken = response.data;
           this.authService.setToken(accessToken);
           console.log("data",accessToken)
-          this.router.navigate(['/']);
+          this.router.navigate(['/verify-otp']);
 
         },
         error: error => {

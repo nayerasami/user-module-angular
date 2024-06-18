@@ -1,0 +1,15 @@
+/* General Styles */
+.container-fluid {
+    padding: 0;
+}
+
+.row {
+    margin: 0;
+}
+
+/* Column Padding */
+.col-md-2,
+.col-md-10 {
+    padding: 0;
+}
+

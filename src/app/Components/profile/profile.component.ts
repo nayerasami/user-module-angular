@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './../../Services/auth.service';
 import { UserService } from './../../Services/user.service';
 import { Component, OnInit } from '@angular/core';
@@ -12,11 +12,13 @@ import { jwtDecode } from "jwt-decode";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  
   private accessToken: string = '';
   private userId: number | undefined;
   private userDetails: any;
+  private registeredUser:any;
 
-  
+
   userProfileInfo = new FormGroup({
     firstName: new FormControl('', [
       Validators.required,
@@ -42,7 +44,6 @@ export class ProfileComponent implements OnInit {
       Validators.minLength(2),
       Validators.maxLength(30)
     ]),
-   
     city: new FormControl('', [
       Validators.minLength(2),
       Validators.maxLength(30)
@@ -56,21 +57,20 @@ export class ProfileComponent implements OnInit {
       Validators.maxLength(250)
     ])
   });
-
   constructor(private userService: UserService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.accessToken = this.authService.getToken();
-
+    this.registeredUser = this.authService.getToken();
+    this.accessToken=this.registeredUser.user.accessToken;
+    console.log("access token from profile ",this.accessToken)
     if (this.accessToken) {
       try {
         const decodedUserToken: any = jwtDecode(this.accessToken);
         console.log("Decoded Token:", decodedUserToken);
 
         this.userId = decodedUserToken.id;
-
         if (this.userId) {
-          this.userService.getUserById(this.userId).subscribe({
+          this.userService.getUserById(this.userId,this.getHeaders()).subscribe({
             next: response => {
               this.userDetails = response.data.user;
               console.log("User details:", this.userDetails);
@@ -94,6 +94,12 @@ export class ProfileComponent implements OnInit {
     }
 
   }
+  private getHeaders(): HttpHeaders {
+    console.log('headers access token ',this.accessToken)
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.accessToken}`
+    });
+  }
 
 
   private populateForm(userDetails: any): void {
@@ -102,11 +108,10 @@ export class ProfileComponent implements OnInit {
       lastName: userDetails.lastName,
     });
   }
-
   editUserInfo(): void {
     if (this.userProfileInfo.valid) {
       console.log(this.userProfileInfo.value);
-      this.userService.editUserInfo(this.userId, this.userProfileInfo.value).subscribe({
+      this.userService.editUserInfo(this.userId, this.userProfileInfo.value, this.getHeaders()).subscribe({
         next: response => {
           console.log("Edit response:", response);
           // Optionally handle success response
@@ -121,6 +126,7 @@ export class ProfileComponent implements OnInit {
       });
     } else {
       console.log('Please enter valid user data.');
+      this.userProfileInfo.markAllAsTouched(); // Ensure validation errors are displayed
     }
   }
 

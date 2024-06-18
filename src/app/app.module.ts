@@ -13,6 +13,9 @@ import { DashboardComponent } from './Components/Shared/dashboard/dashboard.comp
 import { ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http'
 import { CookieServiceService } from './Services/cookie-service.service';
+import { VerifyCodeComponent } from './Components/verify-code/verify-code.component';
+import { UserImageComponent } from './Components/user-image/user-image.component';
+import { AuthLayoutComponent } from './Components/Shared/auth-layout/auth-layout.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { CookieServiceService } from './Services/cookie-service.service';
     SocialMediaComponent,
     SideNavbarComponent,
     NotFoundComponent,
-    DashboardComponent
+    DashboardComponent,
+    VerifyCodeComponent,
+    UserImageComponent,
+    AuthLayoutComponent
   ],
   imports: [
     BrowserModule,
