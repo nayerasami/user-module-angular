@@ -26,7 +26,7 @@ export class LoginComponent {
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(6),
-      Validators.minLength(8),
+      Validators.maxLength(16),
       Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/)
 
       // Password must contain one digit from 1 to 9, one lowercase letter,
