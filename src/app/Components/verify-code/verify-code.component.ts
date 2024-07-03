@@ -18,8 +18,6 @@ export class VerifyCodeComponent implements OnInit {
 
   ngOnInit(): void {
     this.registeredUser = this.authService.getToken();
-
-    
     console.log("access token  from verify code page",this.registeredUser.user.accessToken)
     this.accessToken=this.registeredUser.user.accessToken
     if (this.accessToken && typeof this.accessToken === 'string') {

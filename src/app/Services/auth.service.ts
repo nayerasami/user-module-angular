@@ -11,7 +11,6 @@ import { jwtDecode } from 'jwt-decode';
 export class AuthService {
   private accessToken: string = '';
   private decodedUserToken: any;
-
   private loggedIn = false;
   private registered = false;
 
@@ -51,14 +50,9 @@ export class AuthService {
     return this.cookieService.get('accessToken');
   }
 
-  getLoggedDecodedUserData(): any {
-    this.accessToken = this.getToken() || '';
-    if (this.accessToken) {
-      this.decodedUserToken = jwtDecode(this.accessToken);
-      console.log("Decoded Token:", this.decodedUserToken);
+  getLoggedDecodedUserData(token:any): any {
+      this.decodedUserToken = jwtDecode(token);
       return this.decodedUserToken;
-    }
-    return null;
   }
 
   deleteToken() {

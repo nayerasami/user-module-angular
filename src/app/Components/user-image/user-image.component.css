@@ -1,14 +1,21 @@
-.image{
+.image {
     width: 130px;
     height: 130px;
     border-radius: 50%;
-    background-image: url('../../../assets/images/userImage.jpg');
+    background-image: url("../../../assets/images/userImage.jpg");
     background-size: cover;
     background-position: center;
-
 }
 
-.imageBtn{
+.image img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.imageBtn {
     background-color: #00ab67;
     border: none;
     border-radius: 5px;

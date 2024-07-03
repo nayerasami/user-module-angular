@@ -20,8 +20,6 @@
                                             <label for="firstName" class="form-label">الاسم الاول</label>
                                             <input type="text" class="form-control" id="firstName"
                                                 formControlName="firstName" />
-                                            <div *ngIf="userProfileInfo.get('firstName')?.invalid && userProfileInfo.get('firstName')?.touched"
-                                                class="text-danger">Invalid first name</div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -29,10 +27,30 @@
                                             <label for="lastName" class="form-label">الاسم الاخير</label>
                                             <input type="text" class="form-control" id="lastName"
                                                 formControlName="lastName" />
-                                            <div *ngIf="userProfileInfo.get('lastName')?.invalid && userProfileInfo.get('lastName')?.touched"
-                                                class="text-danger">Invalid last name</div>
+
                                         </div>
                                     </div>
+                                    <ng-container *ngIf="getFirstName.touched">
+                                        <p *ngIf="getFirstName.hasError('required')"
+                                            class="text-start text-danger mt-2">First name is required</p>
+                                        <p *ngIf="getFirstName.hasError('minlength')"
+                                            class="text-start text-danger mt-2">First name must be at least 2 characters
+                                            long</p>
+                                        <p *ngIf="getFirstName.hasError('maxlength')"
+                                            class="text-start text-danger mt-2">First name cannot be more than 20
+                                            characters long</p>
+                                    </ng-container>
+                                    <ng-container *ngIf="getLastName.touched">
+                                        <p *ngIf="getLastName.hasError('required')" class="text-start text-danger mt-2">
+                                            Last name is required</p>
+                                        <p *ngIf="getLastName.hasError('minlength')"
+                                            class="text-start text-danger mt-2">Last name must be at least 2 characters
+                                            long</p>
+                                        <p *ngIf="getLastName.hasError('maxlength')"
+                                            class="text-start text-danger mt-2">Last name cannot be more than 20
+                                            characters long</p>
+                                    </ng-container>
+
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="fullNameArabic" class="form-label">
@@ -53,12 +71,31 @@
                                                 formControlName="fullNameEnglish" />
                                         </div>
                                     </div>
+                                    <ng-container *ngIf="getFullNameAr.touched">
+                                        <p *ngIf="getFullNameAr.hasError('minlength')"
+                                            class="text-start text-danger mt-2">First name must be at least 2 characters
+                                            long</p>
+                                        <p *ngIf="getFullNameAr.hasError('maxlength')"
+                                            class="text-start text-danger mt-2">First name cannot be more than 150
+                                            characters long</p>
+                                    </ng-container>
+                                    <ng-container *ngIf="getFullNameEn.touched">
+                                        <p *ngIf="getFullNameEn.hasError('minlength')"
+                                            class="text-start text-danger mt-2">Last name must be at least 2 characters
+                                            long</p>
+                                        <p *ngIf="getFullNameEn.hasError('maxlength')"
+                                            class="text-start text-danger mt-2">Last name cannot be more than 150
+                                            characters long</p>
+                                    </ng-container>
+
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="birthDate" class="form-label">تاريخ الميلاد</label>
                                             <input type="date" class="form-control" id="birthDate"
                                                 formControlName="birthDate" />
                                         </div>
+
+
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
@@ -67,19 +104,28 @@
                                                 formControlName="nationality" />
                                         </div>
                                     </div>
+
+
                                     <div class="col-md-12 d-flex align-items-center justify-content-start">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="male" id="male" />
+                                            <input class="form-check-input" type="radio" id="male"
+                                                formControlName="gender" value="male" />
                                             <i class="bi bi-gender-male"></i>
-                                            <label class="form-check-label" for="male"> ذكر </label>
+                                            <label class="form-check-label" for="male"> male</label>
                                         </div>
                                         <div class="form-check mx-4">
-                                            <input class="form-check-input" type="radio" name="female" id="female"
-                                                checked />
+                                            <input class="form-check-input" type="radio" id="female"
+                                                formControlName="gender" value="female" />
                                             <i class="bi bi-gender-female"></i>
-                                            <label class="form-check-label" for="female"> انثي </label>
+                                            <label class="form-check-label" for="female"> female</label>
                                         </div>
                                     </div>
+                                    <ng-container *ngIf="getGender.touched">
+                                        <p *ngIf="getGender.hasError('required')" class="text-start text-danger mt-2">
+                                            gender is required
+                                        </p>
+
+                                    </ng-container>
                                 </div>
                             </div>
                         </div>
@@ -111,6 +157,18 @@
                                                 formControlName="city" />
                                         </div>
                                     </div>
+                                    <ng-container *ngIf="getCountry.touched">
+                                        <p *ngIf="getCountry.hasError('minlength')" class="text-start text-danger mt-2">
+                                            First name must be at least 2 characters long</p>
+                                        <p *ngIf="getCountry.hasError('maxlength')" class="text-start text-danger mt-2">
+                                            First name cannot be more than 30 characters long</p>
+                                    </ng-container>
+                                    <ng-container *ngIf="getCity.touched">
+                                        <p *ngIf="getCity.hasError('minlength')" class="text-start text-danger mt-2">
+                                            Last name must be at least 2 characters long</p>
+                                        <p *ngIf="getCity.hasError('maxlength')" class="text-start text-danger mt-2">
+                                            Last name cannot be more than 30 characters long</p>
+                                    </ng-container>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="fullAddress" class="form-label">العنوان الكامل</label>
@@ -118,6 +176,15 @@
                                                 formControlName="fullAddress" />
                                         </div>
                                     </div>
+                                    <ng-container *ngIf="getFullAddress.touched">
+                                        <p *ngIf="getFullAddress.hasError('minlength')"
+                                            class="text-start text-danger mt-2">First name must be at least 2 characters
+                                            long</p>
+                                        <p *ngIf="getFullAddress.hasError('maxlength')"
+                                            class="text-start text-danger mt-2">First name cannot be more than 150
+                                            characters long</p>
+                                    </ng-container>
+
                                 </div>
                             </div>
                         </div>
@@ -145,6 +212,19 @@
                         </div>
                     </div>
                 </div>
+                <ng-container *ngIf="getBio.touched">
+                    <p *ngIf="getBio.hasError('minlength')" class="text-start text-danger mt-2">First name must be at
+                        least 2 characters long</p>
+                    <p *ngIf="getBio.hasError('maxlength')" class="text-start text-danger mt-2">First name cannot be
+                        more than 250 characters long</p>
+                </ng-container>
                 <button class="btn my-4" type="submit">حفظ</button>
+
+                <div *ngIf="editSuccess" class="alert alert-success mt-3">
+                    user Edited successfully!
+                </div>
+                <div *ngIf="editError" class="alert alert-danger mt-3">
+                    Error editing user. Please try again.
+                </div>
             </div>
         </form>

@@ -12,23 +12,31 @@ import { jwtDecode } from 'jwt-decode';
 export class UserImageComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
   selectedFile: File | null = null;
+
+  
   uploadSuccess = false;
   uploadError = false;
+
+
   private userId: number | undefined;
   private accessToken: string = '';
   private registeredUser: any;
   imageUrl: string | null = null;
+  userImageURL:string |null =''
 
   constructor(private userService: UserService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.registeredUser = this.authService.getLoggedDecodedUserData();
-    if (!this.registeredUser || !this.registeredUser.id) {
-      console.error("User ID not found or invalid.");
-      return;
-    }
-    this.userId = this.registeredUser.id;
+    // this.registeredUser = this.authService.getLoggedDecodedUserData();
+    // if (!this.registeredUser || !this.registeredUser.id) {
+    //   console.error("User ID not found or invalid.");
+    //   return;
+    // }
+    // this.userId = this.registeredUser.id;
     this.accessToken = this.authService.getToken();
+    this.registeredUser =this.authService.getLoggedDecodedUserData(this.accessToken)
+    this.userId =this.registeredUser.id
+    this.getUserImage()
   }
 
   onUploadClick() {
@@ -37,6 +45,7 @@ export class UserImageComponent implements OnInit {
 
   onFileChange(event: any) {
     this.selectedFile = event.target.files[0] || null;
+    console.log("selectedFile",this.selectedFile)
     if (this.selectedFile) {
       this.uploadImage();
     }
@@ -47,7 +56,17 @@ export class UserImageComponent implements OnInit {
       'Authorization': `Bearer ${this.accessToken}`
     });
   }
-
+  getUserImage(){
+    this.userService.getUserById(this.userId,this.getHeaders()).subscribe({
+      next:(response:any)=>{
+      this.userImageURL = response.data.user.image;
+      this.imageUrl=this.userImageURL;
+      console.log("user already have an image" ,this.userImageURL)
+      },error:(error)=>{
+        console.error("error:", error);
+      }
+    })
+  }
   uploadImage() {
     if (!this.selectedFile || !this.userId || !this.accessToken) {
       console.error("File, user ID, or access token not available.");
@@ -59,8 +78,12 @@ export class UserImageComponent implements OnInit {
 
     this.userService.uploadUserImage(this.userId, formData, this.getHeaders()).subscribe({
       next: (response: any) => {
+        this.imageUrl = response.user.image;
+        this.userImageURL=this.imageUrl;
+  
+        console.log("IMage url",this.imageUrl)
         console.log("Upload successful:", response);
-        this.imageUrl = response.imageUrl; // Assuming imageUrl is returned from server
+
         this.uploadSuccess = true;
         this.uploadError = false;
       },

@@ -16,6 +16,8 @@ export class ProfileComponent implements OnInit {
   private userId: number | undefined;
   private userDetails: any;
   private registeredUserToken: any;
+  editSuccess = false;
+  editError = false
 
   userProfileInfo = new FormGroup({
     firstName: new FormControl('', [
@@ -28,26 +30,6 @@ export class ProfileComponent implements OnInit {
       Validators.minLength(2),
       Validators.maxLength(20)
     ]),
-    email: new FormControl('', [
-      Validators.required,
-      Validators.email
-    ]),
-    phoneNumber: new FormControl('', [
-      Validators.required,
-      Validators.minLength(11), // Assuming minimum length requirement
-      Validators.pattern(/^\d{11}$/) // Assuming numeric format requirement
-    ]),
-    imageUrl: new FormControl(''),
-    gender: new FormControl('female', [
-      Validators.required,
-      Validators.pattern(/^(male|female)$/i) // Assuming valid gender values
-    ]),
-    birthDate: new FormControl(''),
-    nationality: new FormControl(''),
-    bio: new FormControl('', [
-      Validators.minLength(2),
-      Validators.maxLength(250)
-    ]),
     fullNameArabic: new FormControl('', [
       Validators.minLength(2),
       Validators.maxLength(150)
@@ -55,6 +37,11 @@ export class ProfileComponent implements OnInit {
     fullNameEnglish: new FormControl('', [
       Validators.minLength(2),
       Validators.maxLength(150)
+    ]),
+    birthDate: new FormControl(''),
+    nationality: new FormControl(''),
+    gender: new FormControl('', [
+      Validators.required
     ]),
     country: new FormControl('', [
       Validators.minLength(2),
@@ -67,8 +54,13 @@ export class ProfileComponent implements OnInit {
     fullAddress: new FormControl('', [
       Validators.minLength(2),
       Validators.maxLength(150)
+    ]),
+    bio: new FormControl('', [
+      Validators.minLength(2),
+      Validators.maxLength(250)
     ])
   });
+
 
   constructor(private userService: UserService, private authService: AuthService) { }
 
@@ -112,52 +104,83 @@ export class ProfileComponent implements OnInit {
     this.userProfileInfo.patchValue({
       firstName: userDetails.firstName,
       lastName: userDetails.lastName,
-      email: userDetails.email,
-      phoneNumber: userDetails.phoneNumber,
-      imageUrl: userDetails.imageUrl,
       gender: userDetails.gender,
-      birthDate: userDetails.birthDate,
-      nationality: userDetails.nationality,
-      bio: userDetails.bio,
       fullNameArabic: userDetails.fullNameArabic,
       fullNameEnglish: userDetails.fullNameEnglish,
+      birthDate: userDetails.birthDate,
+      nationality: userDetails.nationality,
       country: userDetails.country,
       city: userDetails.city,
-      fullAddress: userDetails.fullAddress
+      fullAddress: userDetails.fullAddress,
+      bio: userDetails.bio
     });
   }
 
+
+  get getFirstName() {
+    return this.userProfileInfo.controls['firstName']
+  }
+
+  get getLastName() {
+    return this.userProfileInfo.controls['lastName']
+  }
+  get getFullNameAr() {
+    return this.userProfileInfo.controls['fullNameArabic']
+  }
+  get getFullNameEn() {
+    return this.userProfileInfo.controls['fullNameEnglish']
+  }
+  get getGender() {
+    return this.userProfileInfo.controls['gender']
+  }
+  get getCountry() {
+    return this.userProfileInfo.controls['country']
+  }
+  get getCity() {
+    return this.userProfileInfo.controls['city']
+  }
+  get getFullAddress() {
+    return this.userProfileInfo.controls['fullAddress']
+  }
+  get getBio() {
+    return this.userProfileInfo.controls['bio']
+  }
+
   editUserInfo(): void {
+    console.log("userProfileInfo", this.userProfileInfo)
     if (this.userProfileInfo.valid) {
       this.userService.editUserInfo(this.userId, this.userProfileInfo.value, this.getHeaders()).subscribe({
         next: response => {
           console.log("Edit response:", response);
-          // Optionally handle success response
+          this.editSuccess = true;
+          this.editError = false;
         },
         error: (error: HttpErrorResponse) => {
           console.error('Editing error:', error);
-          if (error.status === 400 && error.error?.validationErr) {
-            const validationErrors: ValidationErrors[] = error.error.validationErr;
-            this.handleValidationErrors(validationErrors);
-          } else {
-            // Handle other types of errors (e.g., server errors)
-            // Display a generic error message to the user
-            // Example: this.errorMessage = 'An error occurred while saving.';
-          }
+          this.editSuccess = false;
+          this.editError = true;
+          // if (error.status === 400 && error.error?.validationErr) {
+          //   const validationErrors: ValidationErrors[] = error.error.validationErr;
+          //   this.handleValidationErrors(validationErrors);
+          // } else {
+          //   // Handle other types of errors (e.g., server errors)
+          //   // Display a generic error message to the user
+          //   // Example: this.errorMessage = 'An error occurred while saving.';
+          // }
         }
       });
     } else {
       console.log('Please enter valid user data.');
-      this.userProfileInfo.markAllAsTouched(); // Ensure validation errors are displayed
+      // this.userProfileInfo.markAllAsTouched(); // Ensure validation errors are displayed
     }
   }
 
-  private handleValidationErrors(validationErrors: any[]): void {
-    validationErrors.forEach(error => {
-      const control = this.userProfileInfo.get(error.field); // Adjust 'field' based on actual API response
-      if (control) {
-        control.setErrors({ serverError: error.message });
-      }
-    });
-  }
+  // private handleValidationErrors(validationErrors: any[]): void {
+  //   validationErrors.forEach(error => {
+  //     const control = this.userProfileInfo.get(error.field); // Adjust 'field' based on actual API response
+  //     if (control) {
+  //       control.setErrors({ serverError: error.message });
+  //     }
+  //   });
+  // }
 }
